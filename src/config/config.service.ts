@@ -33,7 +33,7 @@ class ConfigService {
 
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
-      url: this.getValue('TYPEORM_USERNAME'),
+      url: this.getValue('DATABASE_URL'),
       type: 'postgres',
       host: this.getValue('TYPEORM_HOST'),
       port: parseInt(this.getValue('TYPEORM_PORT')),
@@ -42,9 +42,8 @@ class ConfigService {
       database: this.getValue('TYPEORM_DATABASE'),
       entities: ['dist/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
-      ssl:  {
-        require: true, // This will help you. But you will see nwe error
-        rejectUnauthorized: false // This line will fix new error
+      ssl: {
+        rejectUnauthorized: false,
       },
       synchronize: false,
     };
