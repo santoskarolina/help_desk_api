@@ -35,6 +35,7 @@ class ConfigService {
     return {
       type: 'postgres',
       host: this.getValue('TYPEORM_HOST'),
+      url: this.getValue('DATABASE_URL'),
       port: parseInt(this.getValue('TYPEORM_PORT')),
       username: this.getValue('TYPEORM_USERNAME'),
       password: this.getValue('TYPEORM_PASSWORD'),
