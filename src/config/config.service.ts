@@ -34,12 +34,12 @@ class ConfigService {
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
       type: 'postgres',
-      // host: this.getValue('TYPEORM_HOST'),
+      host: this.getValue('TYPEORM_HOST'),
       url: this.getValue('DATABASE_URL'),
-      // port: parseInt(this.getValue('TYPEORM_PORT')),
-      // username: this.getValue('TYPEORM_USERNAME'),
-      // password: this.getValue('TYPEORM_PASSWORD'),
-      // database: this.getValue('TYPEORM_DATABASE'),
+      port: parseInt(this.getValue('TYPEORM_PORT')),
+      username: this.getValue('TYPEORM_USERNAME'),
+      password: this.getValue('TYPEORM_PASSWORD'),
+      database: this.getValue('TYPEORM_DATABASE'),
       entities: ['dist/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
       ssl: this.isProduction(),
