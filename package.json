@@ -1,6 +1,10 @@
 {
   "name": "help_desp_api",
   "version": "0.0.1",
+  "engines": {
+    "node": "16.x",
+    "npm": "8.x"
+  },
   "description": "",
   "author": "",
   "private": true,
