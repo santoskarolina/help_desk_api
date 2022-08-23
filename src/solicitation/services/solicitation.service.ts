@@ -2,13 +2,13 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { SolicitationEntity } from '../entities/solicitation.entity';
 import { Repository } from 'typeorm';
-import { SolicitationCreate } from '../entities/dto/solicitation.dto';
 import { StatusEnum } from '../../models/status.enum';
 import { ErrosEnum } from '../../models/error.enum';
 import { UserLogin } from '../../user/entities/dto/user.dto';
 import { UserService } from '../../user/services/user.service';
 import { UserTypeEnum } from '../../models/userType.enum';
 import { UserEntity } from '../../user/entities/user.entity';
+import { SolicitationCrate } from '../entities/dto/solicitation.dto';
 
 @Injectable()
 export class SolicitationService {
@@ -33,7 +33,7 @@ export class SolicitationService {
   }
 
   async create(
-    body: SolicitationCreate,
+    body: SolicitationCrate,
     user: UserLogin,
   ): Promise<SolicitationEntity> {
     const userLog = await this.userService.findByEmail(user.email);

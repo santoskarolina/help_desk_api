@@ -1,4 +1,4 @@
-export enum StatusEnum{
-    OPEN = "OPEN",
-    CLOSE = "CLOSE"
+export enum StatusEnum {
+  OPEN = 'OPEN',
+  CLOSE = 'CLOSE',
 }

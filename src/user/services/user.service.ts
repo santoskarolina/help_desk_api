@@ -2,9 +2,9 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { Repository } from 'typeorm';
 import { UserEntity } from '../entities/user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserDto } from '../entities/dto/user.dto';
 import * as crypto from 'crypto';
 import { ErrosEnum } from '../../models/error.enum';
+import { CreateUserDto } from '../entities/dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -13,7 +13,7 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async createuser(body: UserDto): Promise<UserEntity> {
+  async createuser(body: CreateUserDto): Promise<UserEntity> {
     const userFind = await this.userRepository.findOne({
       where: {
         email: body.email,

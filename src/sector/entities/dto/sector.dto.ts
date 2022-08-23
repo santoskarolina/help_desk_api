@@ -1,3 +1,8 @@
-import {SectorEntity} from "../sector.entity";
+/* eslint-disable prettier/prettier */
+import { IsNotEmpty, Length } from 'class-validator';
 
-export type SectorCreate = Pick<SectorEntity, "name">
+export class CreateSectorDTo {
+  @IsNotEmpty()
+  @Length(3, 255)
+  name: string;
+}

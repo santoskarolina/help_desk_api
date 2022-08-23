@@ -1,3 +1,15 @@
-import {SolutionEntity} from "../solution.entity";
+/* eslint-disable prettier/prettier */
+import { IsNotEmpty, Length } from 'class-validator';
+import { SolicitationEntity } from 'src/solicitation/entities/solicitation.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 
-export type SolutionCreate = Pick<SolutionEntity, "description" | "user" | "solicitation">
+export class SolutionCreate {
+  @IsNotEmpty()
+  @Length(6, 255)
+  description: string;
+
+  user: UserEntity;
+
+  @IsNotEmpty()
+  solicitation: SolicitationEntity;
+}
