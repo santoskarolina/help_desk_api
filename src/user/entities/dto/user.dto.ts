@@ -15,8 +15,14 @@ export class CreateUserDto {
   password: string;
 
   @IsNotEmpty()
+  @Length(6, 255)
+  name: string;
+
+  @IsNotEmpty()
   user_type: UserTypeEnum;
 
   @IsNotEmpty()
   sector: SectorEntity;
+
+
 }
