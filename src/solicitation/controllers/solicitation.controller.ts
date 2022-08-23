@@ -9,8 +9,8 @@ import {
   Request,
 } from '@nestjs/common';
 import { SolicitationService } from '../services/solicitation.service';
-import { SolicitationCreate } from '../entities/dto/solicitation.dto';
 import { JwtLocalGuard } from '../../auth/guards/jwt.guard';
+import { SolicitationCrate } from '../entities/dto/solicitation.dto';
 
 @Controller('solicitation')
 @UseGuards(JwtLocalGuard)
@@ -33,7 +33,7 @@ export class SolicitationController {
   }
 
   @Post()
-  create(@Body() solicitation: SolicitationCreate, @Request() request) {
+  create(@Body() solicitation: SolicitationCrate, @Request() request) {
     return this.solicitationService.create(solicitation, request.user);
   }
 
