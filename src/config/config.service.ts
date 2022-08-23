@@ -33,6 +33,7 @@ class ConfigService {
 
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
+      url: this.getValue('DATABASE_URL'),
       type: 'postgres',
       host: this.getValue('TYPEORM_HOST'),
       port: parseInt(this.getValue('TYPEORM_PORT')),
@@ -53,6 +54,7 @@ const configService = new ConfigService(process.env).ensureValues([
   'TYPEORM_USERNAME',
   'TYPEORM_PASSWORD',
   'TYPEORM_DATABASE',
+  'DATABASE_URL'
 ]);
 
 export { configService };
