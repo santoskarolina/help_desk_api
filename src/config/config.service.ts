@@ -1,6 +1,3 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable @typescript-eslint/no-var-requires */
-/* eslint-disable prettier/prettier */
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 
 require('dotenv').config();
@@ -37,7 +34,7 @@ class ConfigService {
       type: 'mysql',
       host: 'localhost',
       port: 3306,
-      username: 'root',
+      username: 'admin',
       password: '123456',
       database: 'help_ceuma',
       entities: ['dist/**/*.entity{.ts,.js}'],
