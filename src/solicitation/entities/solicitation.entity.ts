@@ -12,7 +12,7 @@ import { StatusEnum } from '../../models/status.enum';
 import { SectorEntity } from '../../sector/entities/sector.entity';
 import { SolutionEntity } from '../../solution/entities/solution.entity';
 
-@Entity({ name: 'solicitation', schema: 'help_desk' })
+@Entity({ name: 'solicitation' })
 export class SolicitationEntity {
   @PrimaryGeneratedColumn()
   solicitation_id: number;

@@ -11,7 +11,7 @@ import { UserTypeEnum } from '../../models/userType.enum';
 import { SectorEntity } from '../../sector/entities/sector.entity';
 import { SolicitationEntity } from '../../solicitation/entities/solicitation.entity';
 
-@Entity({ name: 'user', schema: 'help_desk' })
+@Entity({ name: 'user' })
 export class UserEntity {
   @PrimaryGeneratedColumn()
   user_id: number;
