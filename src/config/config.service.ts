@@ -33,18 +33,18 @@ class ConfigService {
 
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
-      url: this.getValue('DATABASE_URL'),
-      type: 'postgres',
-      host: this.getValue('TYPEORM_HOST'),
-      port: parseInt(this.getValue('TYPEORM_PORT')),
-      username: this.getValue('TYPEORM_USERNAME'),
-      password: this.getValue('TYPEORM_PASSWORD'),
-      database: this.getValue('TYPEORM_DATABASE'),
+      // url: this.getValue('DATABASE_URL'),
+      type: 'mysql',
+      host: 'localhost',
+      port: 3306,
+      username: 'root',
+      password: '123456',
+      database: 'help_ceuma',
       entities: ['dist/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
-      ssl: {
-        rejectUnauthorized: false,
-      },
+      // ssl: {
+      //   rejectUnauthorized: false,
+      // },
       synchronize: false,
     };
   }
