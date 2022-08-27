@@ -1,4 +1,3 @@
-/* eslint-disable prettier/prettier */
 import { IsNotEmpty, Length } from 'class-validator';
 import { SolicitationEntity } from 'src/solicitation/entities/solicitation.entity';
 import { UserEntity } from 'src/user/entities/user.entity';

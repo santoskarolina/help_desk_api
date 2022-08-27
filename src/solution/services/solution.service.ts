@@ -1,12 +1,10 @@
-/* eslint-disable prettier/prettier */
 import {Injectable} from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
-import {SolutionEntity} from "../entities/solution.entity";
 import {Repository} from "typeorm";
-import {SolicitationService} from "../../solicitation/services/solicitation.service";
 import {SolutionCreate} from "../entities/dto/solution.dto";
 import {UserLogin} from "../../user/entities/dto/user.dto";
 import {UserService} from "../../user/services/user.service";
+import { SolutionEntity } from '../entities/solution.entity';
 
 @Injectable()
 export class SolutionService {
