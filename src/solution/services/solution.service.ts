@@ -15,11 +15,9 @@ export class SolutionService {
         private readonly userService: UserService
     ) {}
 
-
     async create(body: SolutionCreate, user: UserLogin) {
         body.user = await this.userService.findByEmail(user.email)
         const solution = await this.solutionRepository.save(body)
         return solution
     }
-
 }
