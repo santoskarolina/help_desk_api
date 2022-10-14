@@ -8,7 +8,7 @@ import {
 import { SolicitationEntity } from '../../solicitation/entities/solicitation.entity';
 import { UserEntity } from '../../user/entities/user.entity';
 
-@Entity({ name: 'solution' })
+@Entity({ name: 'solution', schema: 'help_desk' })
 export class SolutionEntity {
   @PrimaryGeneratedColumn()
   solution_id: number;
