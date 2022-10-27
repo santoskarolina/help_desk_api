@@ -54,4 +54,36 @@ export class UserService {
       select: ['user_id', 'name', 'email', 'user_type'],
     });
   }
+
+  async deleteUser(userId: number){
+    const user = await this.userRepository.findOne({
+      where: {
+        user_id: userId,
+      },
+    })
+
+    if(user){
+      try{
+        return await this.userRepository.delete(userId)
+      }catch(err){
+        throw new HttpException(
+          {
+            status: HttpStatus.PRECONDITION_FAILED,
+            message: 'User can not be deleted',
+            type: ErrosEnum.USER_CANNOT_BE_DELETED,
+          },
+          HttpStatus.PRECONDITION_FAILED,
+        );
+      }
+    }else{
+      throw new HttpException(
+        {
+          status: HttpStatus.PRECONDITION_FAILED,
+          message: 'User not found',
+          type: ErrosEnum.ENTITY_NODE_FOUND,
+        },
+        HttpStatus.PRECONDITION_FAILED,
+      );
+    }
+  }
 }
