@@ -86,4 +86,13 @@ export class UserService {
       );
     }
   }
+
+  async getUsers(){
+    const users = await this.userRepository.find()
+
+
+    return {users: users, totalSize: users.length}
+
+  }
+
 }

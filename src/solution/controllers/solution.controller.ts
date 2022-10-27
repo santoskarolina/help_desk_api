@@ -1,9 +1,9 @@
 import { Body, Controller, Post, Request, UseGuards } from '@nestjs/common';
 import { SolutionService } from '../services/solution.service';
 import { SolutionCreate } from '../entities/dto/solution.dto';
-import { JwtLocalGuard } from '../../auth/guards/jwt.guard';
+import { RoleGuard } from 'src/auth/guards/role.guard';
 
-@UseGuards(JwtLocalGuard)
+@UseGuards(RoleGuard)
 @Controller('solution')
 export class SolutionController {
   constructor(private readonly solutionService: SolutionService) {}
