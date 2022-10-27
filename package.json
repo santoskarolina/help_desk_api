@@ -1,6 +1,6 @@
 {
   "name": "help_desp_api",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "engines": {
     "node": "16.x",
     "npm": "8.x"

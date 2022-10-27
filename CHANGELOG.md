@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.3](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.2...v0.0.3) (2022-10-27)
+
+
+### Features
+
+* add role guards ([3e15669](https://github.com/mokkapps/changelog-generator-demo/commits/3e156690125fedba7459f7e91384f51f4d9b95be))
+* delete user ([956611a](https://github.com/mokkapps/changelog-generator-demo/commits/956611a8807f20a2d8d1141bbb5b1320660bca99))
+
+
+### Bug Fixes
+
+* add port ([8b938f9](https://github.com/mokkapps/changelog-generator-demo/commits/8b938f927d4389084640b37651e5303005636cfc))
+
 ### [0.0.2](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.1...v0.0.2) (2022-10-14)
 
 
