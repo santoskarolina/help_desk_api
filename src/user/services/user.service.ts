@@ -23,14 +23,11 @@ export class UserService {
     });
 
     if (userFind) {
-      throw new HttpException(
-        {
+      throw new HttpException({
           status: HttpStatus.PRECONDITION_FAILED,
           message: 'Email already registered',
           type: ErrosEnum.EMAIL_ALREADY_REGISTERED,
-        },
-        HttpStatus.PRECONDITION_FAILED,
-      );
+        }, HttpStatus.PRECONDITION_FAILED,);
     }
     body.password = crypto.createHmac('sha256', body.password).digest('hex');
     await this.sectorService.findById(body.sector.sector_id);
@@ -91,5 +88,4 @@ export class UserService {
     const users = await this.userRepository.find()
     return {users: users, totalSize: users.length}
   }
-
 }
