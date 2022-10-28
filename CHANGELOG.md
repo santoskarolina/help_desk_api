@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.4](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.3...v0.0.4) (2022-10-28)
+
+
+### Bug Fixes
+
+* list users with sectors ([d4c5b99](https://github.com/mokkapps/changelog-generator-demo/commits/d4c5b993cc2d7711dad4d7a8b7bb566581307a7d))
+
 ### [0.0.3](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.2...v0.0.3) (2022-10-27)
 
 
