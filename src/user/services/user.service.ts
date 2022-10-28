@@ -85,7 +85,9 @@ export class UserService {
   }
 
   async getUsers(){
-    const users = await this.userRepository.find()
+    const users = await this.userRepository.find({
+      relations: ['sector']
+    })
     return {users: users, totalSize: users.length}
   }
 }
