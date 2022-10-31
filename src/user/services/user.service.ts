@@ -5,14 +5,12 @@ import { InjectRepository } from '@nestjs/typeorm';
 import * as crypto from 'crypto';
 import { ErrosEnum } from '../../models/error.enum';
 import { CreateUserDto } from '../entities/dto/user.dto';
-import { SectorService } from 'src/sector/services/sector.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(UserEntity)
     private readonly userRepository: Repository<UserEntity>,
-    private readonly sectorService: SectorService,
   ) {}
 
   async createuser(body: CreateUserDto): Promise<UserEntity> {
@@ -30,7 +28,6 @@ export class UserService {
         }, HttpStatus.PRECONDITION_FAILED,);
     }
     body.password = crypto.createHmac('sha256', body.password).digest('hex');
-    await this.sectorService.findById(body.sector.sector_id);
     const user = await this.userRepository.save(body);
     return user;
   }
@@ -85,9 +82,7 @@ export class UserService {
   }
 
   async getUsers(){
-    const users = await this.userRepository.find({
-      relations: ['sector']
-    })
+    const users = await this.userRepository.find()
     return {users: users, totalSize: users.length}
   }
 }

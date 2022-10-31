@@ -39,10 +39,6 @@ export class UserEntity {
   })
   user_type: UserTypeEnum;
 
-  @ManyToOne(() => SectorEntity)
-  @JoinColumn({ name: 'sector_id', referencedColumnName: 'sector_id' })
-  sector: SectorEntity;
-
   @CreateDateColumn()
   created_at: Date;
 

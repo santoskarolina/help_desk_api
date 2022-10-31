@@ -19,9 +19,4 @@ export class CreateUserDto {
 
   @IsNotEmpty()
   user_type: UserTypeEnum;
-
-  @IsNotEmpty()
-  sector: SectorEntity;
-
-
 }
