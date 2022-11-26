@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.0.5](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.4...v0.0.5) (2022-11-26)
+
+
+### Features
+
+* removendo setor do usuário ([6228914](https://github.com/mokkapps/changelog-generator-demo/commits/6228914d14e7130709b52c2e3ab23a6b98466cf0))
+
 ### [0.0.4](https://github.com/mokkapps/changelog-generator-demo/compare/v0.0.3...v0.0.4) (2022-10-28)
 
 
