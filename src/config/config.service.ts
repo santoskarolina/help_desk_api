@@ -30,7 +30,7 @@ class ConfigService {
 
   public getTypeOrmConfig(): TypeOrmModuleOptions {
     return {
-      url: this.getValue('DATABASE_URL'),
+      // url: this.getValue('DATABASE_URL'),
       type: 'postgres',
       host: this.getValue('TYPEORM_HOST'),
       port: 5432,
@@ -39,9 +39,9 @@ class ConfigService {
       database: this.getValue('TYPEORM_DATABASE'),
       entities: ['dist/**/*.entity{.ts,.js}'],
       autoLoadEntities: true,
-      ssl: {
-        rejectUnauthorized: false,
-      },
+      // ssl: {
+      //   rejectUnauthorized: false,
+      // },
       synchronize: false,
     };
   }
