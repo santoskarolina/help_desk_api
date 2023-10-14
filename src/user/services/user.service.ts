@@ -14,13 +14,13 @@ export class UserService {
     private readonly userRepository: Repository<UserEntity>,
   ) {}
 
-  async createuser(body: CreateUserDto): Promise<UserEntity> {
+  async createuser(body: CreateUserDto): Promise<Object> {
     const userFind = await this.userRepository.findOne({ where: { email: body.email } });
 
     if (!!userFind) throw new CustomHttpException(HttpStatus.PRECONDITION_FAILED,'Email already registered',ErrosEnum.EMAIL_ALREADY_REGISTERED);
     body.password = crypto.createHmac('sha256', body.password).digest('hex');
     const user = await this.userRepository.save(body);
-    return { ...user, password: null };
+    return this.buildUser(user, true);
   }
 
   async findByEmail(email: string) {
@@ -36,7 +36,6 @@ export class UserService {
 
   async deleteUser(userId: string) {
     const user = await this.userRepository.findOne({ where: { id: userId } });
-
     if (!user) throw new CustomHttpException(HttpStatus.PRECONDITION_FAILED, 'User not found', ErrosEnum.ENTITY_NODE_FOUND);
 
     try { return await this.userRepository.delete(userId) }

@@ -18,6 +18,6 @@ export class SolutionService {
     async create(body: SolutionCreate, user: UserLogin) {
         body.user = await this.userService.findByEmail(user.email);
         const solution = await this.solutionRepository.save(body);
-        return solution;
+        return {...solution, user: this.userService.buildUser(solution.user) };
     }
 }
