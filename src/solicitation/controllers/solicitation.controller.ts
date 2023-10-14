@@ -7,38 +7,34 @@ import {
   Put,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import { SolicitationService } from '../services/solicitation.service';
 import { JwtLocalGuard } from '../../auth/guards/jwt.guard';
-import { SolicitationCrate } from '../entities/dto/solicitation.dto';
+import { SolicitationBody } from '../entities/dto/solicitation.dto';
 
 @Controller('solicitation')
 @UseGuards(JwtLocalGuard)
 export class SolicitationController {
   constructor(private readonly solicitationService: SolicitationService) {}
 
-  @Get('open')
-  findAllOpen(@Request() request) {
-    return this.solicitationService.findAllOpen(request.user);
-  }
-
-  @Get('close')
-  findAllCLose(@Request() request) {
-    return this.solicitationService.findAllClose(request.user);
+  @Get()
+  async getAll(@Request() request, @Query("status") status: string) {
+    return await this.solicitationService.getAll(request.user, status);
   }
 
   @Get(':id')
-  findOne(@Param('id') id: number, @Request() request) {
+  findOne(@Param('id') id: string, @Request() request) {
     return this.solicitationService.findOne(id, request.user);
   }
 
   @Post()
-  create(@Body() solicitation: SolicitationCrate, @Request() request) {
-    return this.solicitationService.create(solicitation, request.user);
+  async create(@Body() solicitation: SolicitationBody, @Request() request) {
+    return await this.solicitationService.create(solicitation, request.user);
   }
 
   @Put('resolve-solicitation/:id')
-  resolveSolicitation(@Param('id') id: number) {
+  resolveSolicitation(@Param('id') id: string) {
     return this.solicitationService.resolveSolicitation(id);
   }
 }

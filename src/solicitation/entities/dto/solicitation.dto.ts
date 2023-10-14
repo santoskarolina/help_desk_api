@@ -4,8 +4,7 @@ import { StatusEnum } from 'src/models/status.enum';
 import { SectorEntity } from 'src/sector/entities/sector.entity';
 import { UserEntity } from 'src/user/entities/user.entity';
 
-export class SolicitationCrate {
-  @IsNotEmpty()
+export class SolicitationBody{
   @Length(6, 255)
   description: string;
 

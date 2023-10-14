@@ -14,8 +14,8 @@ export class UserController {
 
   @UseGuards(RoleGuard)
   @Delete(':id')
-  delteUser(@Param('id') user_id: number) {
-    return this.userService.deleteUser(user_id);
+  delteUser(@Param('id') id: string) {
+    return this.userService.deleteUser(id);
   }
 
   @UseGuards(RoleGuard)

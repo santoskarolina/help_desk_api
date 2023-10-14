@@ -1,5 +1,4 @@
-import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
-import { JwtLocalGuard } from 'src/auth/guards/jwt.guard';
+import { Body, Controller, Get, Param, Post, UseGuards } from '@nestjs/common';
 import { CreateSectorDTo } from '../entities/dto/sector.dto';
 import { SectorService } from '../services/sector.service';
 
@@ -8,7 +7,7 @@ export class SectorController {
   constructor(private readonly sectorService: SectorService) {}
 
   @Post()
-  @UseGuards(JwtLocalGuard)
+  // @UseGuards(JwtLocalGuard)
   create(@Body() sector: CreateSectorDTo) {
     return this.sectorService.create(sector);
   }
@@ -16,5 +15,10 @@ export class SectorController {
   @Get()
   findAll() {
     return this.sectorService.findAll();
+  }
+
+  @Get(':id')
+  findOne(@Param('id') id: string) {
+    return this.sectorService.findById(id);
   }
 }

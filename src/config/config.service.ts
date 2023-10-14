@@ -1,5 +1,8 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-
+import { SectorEntity } from 'src/sector/entities/sector.entity';
+import { SolicitationEntity } from 'src/solicitation/entities/solicitation.entity';
+import { SolutionEntity } from 'src/solution/entities/solution.entity';
+import { UserEntity } from 'src/user/entities/user.entity';
 require('dotenv').config();
 
 class ConfigService {
@@ -37,7 +40,7 @@ class ConfigService {
       username: this.getValue('TYPEORM_USERNAME'),
       password: this.getValue('TYPEORM_PASSWORD'),
       database: this.getValue('TYPEORM_DATABASE'),
-      entities: ['dist/**/*.entity{.ts,.js}'],
+      entities: [UserEntity, SectorEntity, SolicitationEntity, SolutionEntity],
       autoLoadEntities: true,
       // ssl: {
       //   rejectUnauthorized: false,

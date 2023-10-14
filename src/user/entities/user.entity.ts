@@ -2,19 +2,18 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
-  ManyToOne,
+  Generated,
   OneToMany,
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { UserTypeEnum } from '../../models/userType.enum';
-import { SectorEntity } from '../../sector/entities/sector.entity';
 import { SolicitationEntity } from '../../solicitation/entities/solicitation.entity';
 
 @Entity({ name: 'user' , schema: 'help_desk'})
 export class UserEntity {
-  @PrimaryGeneratedColumn()
-  user_id: number;
+  @PrimaryGeneratedColumn('uuid')
+  @Generated('uuid')
+  id: string;
 
   @Column({ name: 'name', type: 'varchar', length: 255, nullable: false })
   name: string;

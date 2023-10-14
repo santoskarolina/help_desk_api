@@ -7,7 +7,10 @@ import { SolicitationModule } from './solicitation/solicitation.module';
 import { SolutionModule } from './solution/solution.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './auth/auth.module';
-import { configService } from './config/config.service';
+import { UserEntity } from './user/entities/user.entity';
+import { SectorEntity } from './sector/entities/sector.entity';
+import { SolutionEntity } from './solution/entities/solution.entity';
+import { SolicitationEntity } from './solicitation/entities/solicitation.entity';
 
 @Module({
   imports: [
@@ -15,7 +18,17 @@ import { configService } from './config/config.service';
     SectorModule,
     SolicitationModule,
     SolutionModule,
-    TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: '123456',
+      database: 'help_ceuma',
+      entities: [UserEntity, SectorEntity, SolutionEntity, SolicitationEntity],
+      synchronize: false,
+      autoLoadEntities: true,
+    }),
     AuthModule,
   ],
   controllers: [AppController],

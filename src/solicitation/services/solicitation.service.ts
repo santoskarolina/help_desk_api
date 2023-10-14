@@ -8,149 +8,70 @@ import { UserLogin } from '../../user/entities/dto/user.dto';
 import { UserService } from '../../user/services/user.service';
 import { UserTypeEnum } from '../../models/userType.enum';
 import { UserEntity } from '../../user/entities/user.entity';
-import { SolicitationCrate } from '../entities/dto/solicitation.dto';
+import { SolicitationBody } from '../entities/dto/solicitation.dto';
+import {CustomHttpException} from 'src/@utils/customExeception';
+import { generateCode } from 'src/@utils/gererateCode';
+import { SolicitationDTO } from '../entities/dto/soliciation.dtoRespons';
 
 @Injectable()
 export class SolicitationService {
   constructor(
     @InjectRepository(SolicitationEntity)
     private readonly solicitationRepository: Repository<SolicitationEntity>,
-    private readonly userService: UserService,
+    private readonly userService: UserService
   ) {}
 
-  private static generateCode(): string {
-    const chars =
-      '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJLMNOPQRSTUVWXYZ';
-    const codeLength = 6;
-    let code = '';
-
-    for (let i = 0; i < codeLength; i++) {
-      const randomNumber = Math.floor(Math.random() * chars.length);
-      code += chars.substring(randomNumber, randomNumber + 1);
-    }
-
-    return code;
+  async create(body: SolicitationBody,  user: UserLogin): Promise<SolicitationDTO> {
+    const userLog = await this.userService.findByEmail(user.email);
+    body = {...body, code: generateCode(), was_solved: false, status: StatusEnum.OPEN, user_requested: userLog };
+    const solicitation: SolicitationEntity = await this.solicitationRepository.save(body);
+    return this.buildSolicitation(solicitation);
   }
 
-  async create(
-    body: SolicitationCrate,
-    user: UserLogin,
-  ): Promise<SolicitationEntity> {
-    const userLog = await this.userService.findByEmail(user.email);
-    body.code = SolicitationService.generateCode();
-    body.was_solved = false;
-    body.status = StatusEnum.OPEN;
-    body.user_requested = userLog;
-    const solicitation = await this.solicitationRepository.save(body);
+  buildSolicitation(solicitation: SolicitationEntity): SolicitationDTO{
+    const body = new SolicitationDTO(solicitation);
+    return body;
+  }
+
+  private isAdmin(userLog: UserEntity){
+    return userLog.user_type === UserTypeEnum.ADMIN;
+  }
+
+  async getAll(user: UserLogin, status: string) {
+    const userLog: UserEntity = await this.userService.findByEmail(user.email);
+    const solicitations = await this.solicitationRepository.find({
+      where: { ...!this.isAdmin(userLog) && { user_requested: { id: userLog.id } }, status: this.getStatus(status) },
+      relations: { sector: true, user_requested: true},
+      select: { user_requested: { name: true, id: true }}
+    });
+    return { solicitations: solicitations, totalSize: solicitations.length };
+  }
+
+  getStatus(status: string) {
+    return status.toUpperCase() as StatusEnum;
+  }
+
+  async findOne(id: string, user: UserLogin): Promise<SolicitationEntity> {
+    const userLog: UserEntity = await this.userService.findByEmail(user.email);
+
+    const solicitation = await this.solicitationRepository.findOne({
+      where: { user_requested: { id: userLog.id }, id: id },
+      relations: ["user_requested", "sector", "solutions", "solutions.user"],
+      select: {
+        user_requested: { name: true, id: true, email: true }, solutions: {
+          user: { name: true, id: true, email: true },
+          description: true, id: true
+        }
+      }
+    });
+    if (!solicitation) throw new CustomHttpException(HttpStatus.PRECONDITION_FAILED, 'Solicitation not found', ErrosEnum.ENTITY_NODE_FOUND)
     return solicitation;
   }
 
-  async findAllOpen(user: UserLogin) {
-    let whereOptions = {};
-    const userLog: UserEntity = await this.userService.findByEmail(user.email);
-
-    if (userLog.user_type === UserTypeEnum.USER) {
-      whereOptions = {
-        user_requested: { user_id: userLog.user_id },
-        status: StatusEnum.OPEN,
-      };
-    } else if (userLog.user_type === UserTypeEnum.ADMIN) {
-      whereOptions = { status: StatusEnum.OPEN };
-    }
-
-    const solicitations = await this.solicitationRepository.find({
-      where: whereOptions,
-      relations: ['user_requested', 'sector'],
-    });
-
-    return {
-      solicitations: solicitations,
-      totalSize: solicitations.length,
-    };
-  }
-
-  async findAllClose(user: UserLogin) {
-    let whereOptions = {};
-    const userLog: UserEntity = await this.userService.findByEmail(user.email);
-
-    if (userLog.user_type === UserTypeEnum.USER) {
-      whereOptions = {
-        user_requested: { user_id: userLog.user_id },
-        status: StatusEnum.CLOSE,
-      };
-    } else if (userLog.user_type === UserTypeEnum.ADMIN) {
-      whereOptions = { status: StatusEnum.CLOSE };
-    }
-
-    const solicitations = await this.solicitationRepository.find({
-      where: whereOptions,
-      relations: ['user_requested', 'sector'],
-    });
-
-    return {
-      solicitations: solicitations,
-      totalSize: solicitations.length,
-    };
-  }
-
-  async findOne(id: number, user: UserLogin): Promise<SolicitationEntity> {
-    let whereOptions = {};
-    const userLog: UserEntity = await this.userService.findByEmail(user.email);
-
-    if (userLog.user_type === UserTypeEnum.USER) {
-      whereOptions = {
-        user_requested: { user_id: userLog.user_id },
-        solicitation_id: id,
-      };
-    } else if (userLog.user_type === UserTypeEnum.ADMIN) {
-      whereOptions = { solicitation_id: id };
-    }
-
-    const solicitation = await this.solicitationRepository.findOne({
-      where: whereOptions,
-      relations: {
-        user_requested: true,
-        solutions: {
-          user: true,
-        },
-        sector: true,
-      },
-    });
-    if (solicitation) {
-      return solicitation;
-    } else {
-      throw new HttpException(
-        {
-          statusCode: HttpStatus.PRECONDITION_FAILED,
-          message: 'Solicitation not found',
-          type: ErrosEnum.ENTITY_NODE_FOUND,
-        },
-        HttpStatus.PRECONDITION_FAILED,
-      );
-    }
-  }
-
-  async resolveSolicitation(id: number) {
-    const solicitation = await this.solicitationRepository.findOne({
-      where: {
-        solicitation_id: id,
-      },
-    });
-
-    if (!solicitation) {
-      throw new HttpException(
-        {
-          statusCode: HttpStatus.PRECONDITION_FAILED,
-          message: 'Solicitation not found',
-          type: ErrosEnum.ENTITY_NODE_FOUND,
-        },
-        HttpStatus.PRECONDITION_FAILED,
-      );
-    }
-
-    solicitation.was_solved = true;
-    solicitation.status = StatusEnum.CLOSE;
-    solicitation.closed_at = new Date();
+  async resolveSolicitation(id: string) {
+    let solicitation = await this.solicitationRepository.findOne({ where: { id: id } });
+    if (!solicitation) throw new CustomHttpException(HttpStatus.PRECONDITION_FAILED, 'Solicitation not found', ErrosEnum.ENTITY_NODE_FOUND);
+    solicitation = {...solicitation, was_solved: true, status: StatusEnum.CLOSE, closed_at: new Date() };
     await this.solicitationRepository.update(id, solicitation);
     return solicitation;
   }

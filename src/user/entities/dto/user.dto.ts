@@ -1,6 +1,5 @@
 import { IsEmail, IsNotEmpty, Length } from 'class-validator';
 import { UserTypeEnum } from 'src/models/userType.enum';
-import { SectorEntity } from 'src/sector/entities/sector.entity';
 import { UserEntity } from '../user.entity';
 
 export type UserLogin = Pick<UserEntity, 'email' | 'password'>;

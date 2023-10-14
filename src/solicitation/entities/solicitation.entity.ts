@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  Generated,
   JoinColumn,
   ManyToOne,
   OneToMany,
@@ -14,8 +15,9 @@ import { SolutionEntity } from '../../solution/entities/solution.entity';
 
 @Entity({ name: 'solicitation', schema: 'help_desk' })
 export class SolicitationEntity {
-  @PrimaryGeneratedColumn()
-  solicitation_id: number;
+  @PrimaryGeneratedColumn('uuid')
+  @Generated('uuid')
+  id: string;
 
   @Column({ name: 'code', type: 'varchar', nullable: false, length: 255 })
   code: string;
@@ -24,7 +26,7 @@ export class SolicitationEntity {
     () => UserEntity,
     (user_requested: UserEntity) => user_requested.solicitations,
   )
-  @JoinColumn({ name: 'user_requested', referencedColumnName: 'user_id' })
+  @JoinColumn({ name: 'user_requested', referencedColumnName: 'id' })
   user_requested: UserEntity;
 
   @Column({ name: 'was_solved', type: 'boolean', nullable: false })
@@ -42,7 +44,7 @@ export class SolicitationEntity {
   status: StatusEnum;
 
   @ManyToOne(() => SectorEntity)
-  @JoinColumn({ name: 'sector', referencedColumnName: 'sector_id' })
+  @JoinColumn({ name: 'sector', referencedColumnName: 'id',  })
   sector: SectorEntity;
 
   @OneToMany(() => SolutionEntity, (solutions) => solutions.solicitation)

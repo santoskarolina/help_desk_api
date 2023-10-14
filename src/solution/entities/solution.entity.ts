@@ -1,6 +1,7 @@
 import {
   Column,
   Entity,
+  Generated,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -10,8 +11,9 @@ import { UserEntity } from '../../user/entities/user.entity';
 
 @Entity({ name: 'solution', schema: 'help_desk' })
 export class SolutionEntity {
-  @PrimaryGeneratedColumn()
-  solution_id: number;
+  @PrimaryGeneratedColumn('uuid')
+  @Generated('uuid')
+  id: string;
 
   @Column({
     name: 'description',
@@ -22,13 +24,10 @@ export class SolutionEntity {
   description: string;
 
   @ManyToOne(() => SolicitationEntity)
-  @JoinColumn({
-    name: 'solicitation_id',
-    referencedColumnName: 'solicitation_id',
-  })
+  @JoinColumn({ name: 'solicitation_id', referencedColumnName: 'id',  })
   solicitation: SolicitationEntity;
 
   @ManyToOne(() => UserEntity)
-  @JoinColumn({ name: 'user_id', referencedColumnName: 'user_id' })
+  @JoinColumn({ name: 'user_id', referencedColumnName: 'id',  })
   user: UserEntity;
 }
